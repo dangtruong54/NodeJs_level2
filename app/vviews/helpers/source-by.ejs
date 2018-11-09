@@ -1,0 +1,14 @@
+<% 
+    sourceBy = (user_name, time) => { 
+        let xhtmlResult = '';        
+        xhtmlResult = `<span class="glyphicon glyphicon-user" aria-hidden="true">${user_name}</span><br>
+        <span class="glyphicon glyphicon-time" aria-hidden="true">${moment(time).format(formatDate)}</span>`;    
+        return xhtmlResult;
+    }
+%>
+
+
+
+
+
+

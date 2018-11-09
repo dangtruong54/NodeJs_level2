@@ -2,9 +2,12 @@
 <% include ./../../helpers/action %>
 <% include ./../../helpers/pagination %>
 <% include ./../../helpers/status %>
+<% include ./../../helpers/source-by %>
+<% include ./../../helpers/sort %>
 <% 
 	const collection = "items";
 	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`;
+	const formatDate = systemConfig.formatDate;
 %>
 
 <%- locals.flash %>
@@ -53,10 +56,11 @@
 								<tr>
 									<th><input type="checkbox" class="cbAll" /></th>
 									<th>#</th>
-									<th>Name</th>
-									<th>Status</th>
-									<th>Ordering</th>
+									<%- sortHelper(collection,'Name', 'name', sortField, sortType, 'width: 20%; color: red') %>
+									<%- sortHelper(collection,'Status', 'status', sortField, sortType) %>
+									<%- sortHelper(collection,'Ordering', 'ordering', sortField, sortType) %>									
 									<th>Created</th>
+									<th>Modified</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -68,10 +72,8 @@
 										<td><%= item.name %></td>
 										<td><%- statusHelper(collection, item.status, item.id) %></td>
 										<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
-										<td>											
-											<span class="glyphicon glyphicon-user" aria-hidden="true">Admin</span><br>											
-											<span class="glyphicon glyphicon-time" aria-hidden="true">24/10/2018</span>												
-										</td>
+										<td><%- sourceBy(item.created.user_name, item.created.time) %></td>
+										<td><%- sourceBy(item.modified.user_name, item.modified.time) %></td>
 										<td>
 											<a href="<%= linkPrefix %>form/<%= item.id %>" type="button" class="btn btn-warning btn-sm">Edit</a>
 											<a href="<%= linkPrefix %>delete/<%= item.id %>" type="button" class="btn btn-danger btn-sm btn-delete">Delete</a>

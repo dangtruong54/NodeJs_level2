@@ -1,4 +1,5 @@
 
 module.exports = {
-    prefixAdmin: 'admin'
+    prefixAdmin: 'admin',
+    formatDate: 'HH:m DD-MM-YYYY'
 };
