@@ -17,7 +17,7 @@
     "express-validator": "^5.2.0",
     "http-errors": "~1.6.2",
     "moment": "^2.22.2",
-    "mongoose": "^5.1.1",
+    "mongoose": "^5.7.5",
     "mongoose-legacy-pluralize": "^1.0.2",
     "morgan": "~1.9.0",
     "nodemon": "^1.18.6"
