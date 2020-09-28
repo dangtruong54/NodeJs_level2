@@ -36,7 +36,8 @@ router.get('(/status/:status)?', async (req, res, next) => {
 	if(currentStatus !== 'all') objWhere.status = currentStatus;
 	if(keyword !== '') objWhere.name = new RegExp(keyword, 'i');
 
-	await ItemsModel.count(objWhere).then( (data) => {
+	await ItemsModel.countDocuments(objWhere).then( (data) => {
+		console.log(data, 'truongdx');
 		pagination.totalItems = data;
 	});
 	
@@ -46,7 +47,7 @@ router.get('(/status/:status)?', async (req, res, next) => {
 		.skip((pagination.currentPage-1) * pagination.totalItemsPerPage)
 		.limit(pagination.totalItemsPerPage)
 		.then( (items) => {
-			res.render(`${folderView}list`, { 
+			res.render(`${folderView}list`, {
 				pageTitle: pageTitleIndex,
 				items,
 				statusFilter,
@@ -193,7 +194,12 @@ router.post('/save', (req, res, next) => {
 				'user_id' : 123,
 				'user_name' : 'abc',
 				'time': Date.now()	
-			}	
+			};
+			item["modified"] = {
+				'user_id' : 123,
+				'user_name' : 'abc',
+				'time': Date.now()
+			}
 			new ItemsModel(item).save().then(()=> {
 				req.flash('success', notify.ADD_SUCCESS, false);
 				res.redirect(linkIndex);

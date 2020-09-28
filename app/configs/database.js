@@ -2,6 +2,6 @@
 module.exports = {
     username: 'truongdx',
     password: 'thaibinh1991',
-    database: 'nodejs_trainning',
+    database: 'nodejs-trainning',
     col_items: 'items'
 };

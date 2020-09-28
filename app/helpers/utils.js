@@ -13,7 +13,7 @@ let createFilterStatus =  async (currentStatus) => {
 		let condition = (item.value !== "all") ? {status: item.value} : {};
 		if(item.value === currentStatus) statusFilter[index].class = 'success';
 
-		await ItemsModel.count(condition).then( (data) => {
+		await ItemsModel.countDocuments(condition).then( (data) => {
 			statusFilter[index].count = data;
 		});
 	}

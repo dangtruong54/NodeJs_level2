@@ -27,9 +27,12 @@ global.__path_views     = __path_app + pathConfig.folder_views + '/';
 const systemConfig = require(__path_configs + 'system');
 const databaseConfig = require(__path_configs + 'database');
 
-
-mongoose.connect(`mongodb://${databaseConfig.username}:${databaseConfig.password}@ds229435.mlab.com:29435/${databaseConfig.database}`);
-var db = mongoose.connection;
+// mongoose.connect(`mongodb://${databaseConfig.username}:${databaseConfig.password}@ds229435.mlab.com:29435/${databaseConfig.database}`);
+mongoose.connect(`mongodb+srv://${databaseConfig.username}:${databaseConfig.password}@${databaseConfig.database}.pwohv.gcp.mongodb.net/${databaseConfig.database}?retryWrites=true&w=majority`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+const db = mongoose.connection;
 
 db.on('error', () => {
   console.log('connected error!')
