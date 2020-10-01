@@ -28,10 +28,12 @@ const systemConfig = require(__path_configs + 'system');
 const databaseConfig = require(__path_configs + 'database');
 
 // mongoose.connect(`mongodb://${databaseConfig.username}:${databaseConfig.password}@ds229435.mlab.com:29435/${databaseConfig.database}`);
-mongoose.connect(`mongodb+srv://${databaseConfig.username}:${databaseConfig.password}@${databaseConfig.database}.pwohv.gcp.mongodb.net/${databaseConfig.database}?retryWrites=true&w=majority`, {
+const connectionString = `mongodb+srv://${databaseConfig.username}:${databaseConfig.password}@nodejs-trainning.pwohv.gcp.mongodb.net/${databaseConfig.database}?retryWrites=true&w=majority`
+const userInfo = {
   useNewUrlParser: true,
   useUnifiedTopology: true
-});
+};
+mongoose.connect(connectionString, userInfo);
 const db = mongoose.connection;
 
 db.on('error', () => {

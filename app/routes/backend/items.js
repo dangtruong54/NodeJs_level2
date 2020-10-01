@@ -37,7 +37,6 @@ router.get('(/status/:status)?', async (req, res, next) => {
 	if(keyword !== '') objWhere.name = new RegExp(keyword, 'i');
 
 	await ItemsModel.countDocuments(objWhere).then( (data) => {
-		console.log(data, 'truongdx');
 		pagination.totalItems = data;
 	});
 	
