@@ -28,7 +28,10 @@
 									<option value="inactive" <%= (item.status == "inactive") ? 'selected="selected"' : '' %> >Inactive</option>
 								</select>
 							</div>
-							
+							<div class="form-group">
+								<label>Content</label>
+								<textarea class="form-control" name="content" rows="2" id="content_ckeditor"></textarea>
+							</div>
 							<div class="form-group">
 								<input class="form-control" name="id" value="<%= item.id %>" type="hidden" >
 								<button type="submit" class="btn btn-primary">Submit </button>
