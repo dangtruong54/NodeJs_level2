@@ -171,10 +171,12 @@ router.post('/save', (req, res, next) => {
 		if(errors) { 
 			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
 		}else {
+			console.log(item, 'truongdx');
 			ItemsModel.updateOne({_id: item.id}, {
 				ordering: parseInt(item.ordering),
 				name: item.name,
 				status: item.status,
+				content: item.content,
 				modified: {
 					user_id: 123,
 					user_name: 'abc',
