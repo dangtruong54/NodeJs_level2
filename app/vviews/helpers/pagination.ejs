@@ -1,8 +1,8 @@
 <%
     paginationHelper = (paginationObj, type, currentStatus, keyword) => {
-        let totalItems          = paginationObj.totalItems;
-        let totalItemsPerPage   = paginationObj.totalItemsPerPage;
-        let totalPages          = Math.ceil(totalItems/totalItemsPerPage);
+        let totalItems          = paginationObj.totalItems || 0;
+        let totalItemsPerPage   = paginationObj.totalItemsPerPage || 0;
+        let totalPages          = Math.ceil(totalItems/totalItemsPerPage) || 0;
         let currentPage         = paginationObj.currentPage;
         let pageRanges          = paginationObj.pageRanges;
         let xhtmlPagination     = '';
