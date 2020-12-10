@@ -17,7 +17,7 @@ const folderView	 = __path_views + 'pages/items/';
 
 // List items
 router.get('(/status/:status)?', async (req, res, next) => {
-	let objWhere	 = {}; 
+	let objWhere	 = {};
 	let keyword		 = ParamsHelpers.getParam(req.query, 'keyword', '');
 	let currentStatus= ParamsHelpers.getParam(req.params, 'status', 'all');
 	let statusFilter = await UtilsHelpers.createFilterStatus(currentStatus);
@@ -28,9 +28,9 @@ router.get('(/status/:status)?', async (req, res, next) => {
 
 	let pagination 	 = {
 		totalItems		 : 1,
-		totalItemsPerPage: 3,
+		totalItemsPerPage: 5,
 		currentPage		 : parseInt(ParamsHelpers.getParam(req.query, 'page', 1)),
-		pageRanges		 : 3
+		pageRanges		 : 5
 	};
 
 	if(currentStatus !== 'all') objWhere.status = currentStatus;
@@ -39,7 +39,7 @@ router.get('(/status/:status)?', async (req, res, next) => {
 	await ItemsModel.countDocuments(objWhere).then( (data) => {
 		pagination.totalItems = data;
 	});
-	
+
 	ItemsModel
 		.find(objWhere)
 		.sort(objSort)
@@ -61,8 +61,8 @@ router.get('(/status/:status)?', async (req, res, next) => {
 
 // Change status
 router.get('/change-status/:id/:status', (req, res, next) => {
-	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active'); 
-	let id				= ParamsHelpers.getParam(req.params, 'id', ''); 
+	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active');
+	let id				= ParamsHelpers.getParam(req.params, 'id', '');
 	let status			= (currentStatus === "active") ? "inactive" : "active";
 	let data = {
 		status: status,
@@ -80,7 +80,7 @@ router.get('/change-status/:id/:status', (req, res, next) => {
 
 // Change status - Multi
 router.post('/change-status/:status', (req, res, next) => {
-	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active'); 
+	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active');
 	let data = {
 		status: currentStatus,
 		modified: {
@@ -99,7 +99,7 @@ router.post('/change-status/:status', (req, res, next) => {
 router.post('/change-ordering', (req, res, next) => {
 	let cids 		= req.body.cid;
 	let orderings 	= req.body.ordering;
-	
+
 	if(Array.isArray(cids)) {
 		cids.forEach((item, index) => {
 			let data = {
@@ -112,7 +112,7 @@ router.post('/change-ordering', (req, res, next) => {
 			}
 			ItemsModel.updateOne({_id: item}, data, (err, result) => {});
 		})
-	}else{ 
+	}else{
 		let data = {
 			ordering: parseInt(orderings),
 			modified: {
@@ -130,7 +130,7 @@ router.post('/change-ordering', (req, res, next) => {
 
 // Delete
 router.get('/delete/:id', (req, res, next) => {
-	let id				= ParamsHelpers.getParam(req.params, 'id', ''); 	
+	let id				= ParamsHelpers.getParam(req.params, 'id', '');
 	ItemsModel.deleteOne({_id: id}, (err, result) => {
 		req.flash('success', notify.DELETE_SUCCESS, false);
 		res.redirect(linkIndex);
@@ -155,7 +155,7 @@ router.get(('/form(/:id)?'), (req, res, next) => {
 	}else { // EDIT
 		ItemsModel.findById(id, (err, item) =>{
 			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
-		});	
+		});
 	}
 });
 
@@ -168,7 +168,7 @@ router.post('/save', (req, res, next) => {
 	let errors = req.validationErrors();
 
 	if(typeof item !== "undefined" && item.id !== "" ){	// edit
-		if(errors) { 
+		if(errors) {
 			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
 		}else {
 			console.log(item, 'truongdx');
@@ -188,13 +188,13 @@ router.post('/save', (req, res, next) => {
 			});
 		}
 	}else { // add
-		if(errors) { 
+		if(errors) {
 			res.render(`${folderView}form`, { pageTitle: pageTitleAdd, item, errors});
 		}else {
 			item["created"] = {
 				'user_id' : 123,
 				'user_name' : 'abc',
-				'time': Date.now()	
+				'time': Date.now()
 			};
 			item["modified"] = {
 				'user_id' : 123,
@@ -206,7 +206,7 @@ router.post('/save', (req, res, next) => {
 				res.redirect(linkIndex);
 			})
 		}
-	}	
+	}
 });
 
 // Change status - Multi

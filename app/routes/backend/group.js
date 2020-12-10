@@ -17,7 +17,7 @@ const folderView	 = __path_views + 'pages/group/';
 
 // List group
 router.get('(/status/:status)?', async (req, res, next) => {
-	let objWhere	 = {}; 
+	let objWhere	 = {};
 	let keyword		 = ParamsHelpers.getParam(req.query, 'keyword', '');
 	let currentStatus= ParamsHelpers.getParam(req.params, 'status', 'all');
 	let statusFilter = await UtilsHelpers.createFilterStatus(currentStatus);
@@ -27,24 +27,24 @@ router.get('(/status/:status)?', async (req, res, next) => {
 	objSort[sortField] = sortType;
 
 	let pagination 	 = {
-		totalGroup		 : 1,
-		totalGroupPerPage: 3,
+		totalItems		 : 1,
+		totalItemsPerPage: 5,
 		currentPage		 : parseInt(ParamsHelpers.getParam(req.query, 'page', 1)),
-		pageRanges		 : 3
+		pageRanges		 : 5
 	};
 
 	if(currentStatus !== 'all') objWhere.status = currentStatus;
 	if(keyword !== '') objWhere.name = new RegExp(keyword, 'i');
 
 	await GroupModel.countDocuments(objWhere).then( (data) => {
-		pagination.totalGroup = data;
+		pagination.totalItems = data;
 	});
 
 	GroupModel
 		.find(objWhere)
 		.sort(objSort)
-		.skip((pagination.currentPage-1) * pagination.totalGroupPerPage)
-		.limit(pagination.totalGroupPerPage)
+		.skip((pagination.currentPage-1) * pagination.totalItemsPerPage)
+		.limit(pagination.totalItemsPerPage)
 		.then( (items) => {
 			res.render(`${folderView}list`, {
 				pageTitle: pageTitleIndex,
@@ -61,8 +61,8 @@ router.get('(/status/:status)?', async (req, res, next) => {
 
 // Change status
 router.get('/change-status/:id/:status', (req, res, next) => {
-	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active'); 
-	let id				= ParamsHelpers.getParam(req.params, 'id', ''); 
+	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active');
+	let id				= ParamsHelpers.getParam(req.params, 'id', '');
 	let status			= (currentStatus === "active") ? "inactive" : "active";
 	let data = {
 		status: status,
@@ -80,7 +80,7 @@ router.get('/change-status/:id/:status', (req, res, next) => {
 
 // Change status - Multi
 router.post('/change-status/:status', (req, res, next) => {
-	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active'); 
+	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active');
 	let data = {
 		status: currentStatus,
 		modified: {
@@ -99,7 +99,7 @@ router.post('/change-status/:status', (req, res, next) => {
 router.post('/change-ordering', (req, res, next) => {
 	let cids 		= req.body.cid;
 	let orderings 	= req.body.ordering;
-	
+
 	if(Array.isArray(cids)) {
 		cids.forEach((item, index) => {
 			let data = {
@@ -112,7 +112,7 @@ router.post('/change-ordering', (req, res, next) => {
 			}
 			GroupModel.updateOne({_id: item}, data, (err, result) => {});
 		})
-	}else{ 
+	}else{
 		let data = {
 			ordering: parseInt(orderings),
 			modified: {
@@ -155,7 +155,7 @@ router.get(('/form(/:id)?'), (req, res, next) => {
 	}else { // EDIT
 		GroupModel.findById(id, (err, item) =>{
 			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
-		});	
+		});
 	}
 });
 
@@ -168,7 +168,7 @@ router.post('/save', (req, res, next) => {
 	let errors = req.validationErrors();
 
 	if(typeof item !== "undefined" && item.id !== "" ){	// edit
-		if(errors) { 
+		if(errors) {
 			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
 		}else {
 			console.log(item, 'truongdx');
@@ -188,13 +188,13 @@ router.post('/save', (req, res, next) => {
 			});
 		}
 	}else { // add
-		if(errors) { 
+		if(errors) {
 			res.render(`${folderView}form`, { pageTitle: pageTitleAdd, item, errors});
 		}else {
 			item["created"] = {
 				'user_id' : 123,
 				'user_name' : 'abc',
-				'time': Date.now()	
+				'time': Date.now()
 			};
 			item["modified"] = {
 				'user_id' : 123,
@@ -206,7 +206,7 @@ router.post('/save', (req, res, next) => {
 				res.redirect(linkIndex);
 			})
 		}
-	}	
+	}
 });
 
 // Change status - Multi
