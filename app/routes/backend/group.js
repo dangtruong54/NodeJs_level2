@@ -20,7 +20,7 @@ router.get('(/status/:status)?', async (req, res, next) => {
 	let objWhere	 = {};
 	let keyword		 = ParamsHelpers.getParam(req.query, 'keyword', '');
 	let currentStatus= ParamsHelpers.getParam(req.params, 'status', 'all');
-	let statusFilter = await UtilsHelpers.createFilterStatus(currentStatus);
+	let statusFilter = await UtilsHelpers.createFilterStatus(currentStatus, 'group');
 	let sortField = ParamsHelpers.getParam(req.session, 'sort_field', 'ordering');
 	let sortType = ParamsHelpers.getParam(req.session, 'sort_type', 'asc');
 	let objSort = {};
@@ -171,7 +171,6 @@ router.post('/save', (req, res, next) => {
 		if(errors) {
 			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
 		}else {
-			console.log(item, 'truongdx');
 			GroupModel.updateOne({_id: item.id}, {
 				ordering: parseInt(item.ordering),
 				name: item.name,

@@ -1,5 +1,5 @@
-<% 
-    filterStatusHelper = (collection, statusFilter,  keyword) => { 
+<%
+    filterStatusHelper = (collection, statusFilter,  keyword) => {
         let xhtmlResult = '';
         statusFilter.forEach((item)=> {
             let link = systemConfig.prefixAdmin + '/' + collection + '/status/' + item.value;
@@ -10,7 +10,7 @@
                 </a> `;
         })
         return xhtmlResult;
-    } 
+    }
 %>
 
 

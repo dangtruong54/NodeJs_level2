@@ -1,5 +1,6 @@
-<% 
-    actionHelper = (collection) => { 
+<%
+    actionHelper = (collection) => {
+      console.log(collection, 'haha');
         let actions = [
             { value: "", name: "Bulk Action" },
             { value: "change-status/active", name: "Active" },
@@ -24,7 +25,7 @@
                     <a href="${linkAddNew}" class="btn btn-warning btn-addNew">Add New</a>
                 </div>
             </div>`;
-    } 
+    }
 %>
 
 
