@@ -1,0 +1,7 @@
+<%
+    groupAcpHelper = (collection, status, id_group_acp) => {
+        let classGroupAcp = (status == 'on') ? 'fa-check-square-o' : 'fa-square-o';
+        let link       = systemConfig.prefixAdmin + '/' + collection + '/change-group-acp/' + id_group_acp + '/' + status ;
+        return `<a href="${link}" class="fa ${classGroupAcp} fa-lg"></a>`;
+    }
+%>

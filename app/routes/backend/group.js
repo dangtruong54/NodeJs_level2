@@ -78,6 +78,25 @@ router.get('/change-status/:id/:status', (req, res, next) => {
 	});
 });
 
+// Change group_acp
+router.get('/change-group-acp/:id/:status', (req, res, next) => {
+	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active');
+	let id				= ParamsHelpers.getParam(req.params, 'id', '');
+	let status			= (currentStatus === "on") ? null : "on";
+	let data = {
+		groupAcp: status,
+		modified: {
+			user_id: 123,
+			user_name: 'abc',
+			time: Date.now()
+		}
+	}
+	GroupModel.updateOne({_id: id}, data, (err, result) => {
+		req.flash('success', notify.CHANGE_STATUS_SUCCESS, false);
+		res.redirect(linkIndex);
+	});
+});
+
 // Change status - Multi
 router.post('/change-status/:status', (req, res, next) => {
 	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active');
@@ -166,7 +185,7 @@ router.post('/save', (req, res, next) => {
 
 	let item = Object.assign(req.body);
 	let errors = req.validationErrors();
-
+	console.log(item, 'truongdx');
 	if(typeof item !== "undefined" && item.id !== "" ){	// edit
 		if(errors) {
 			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
@@ -175,6 +194,7 @@ router.post('/save', (req, res, next) => {
 				ordering: parseInt(item.ordering),
 				name: item.name,
 				status: item.status,
+				groupAcp: item.groupAcp,
 				content: item.content,
 				modified: {
 					user_id: 123,

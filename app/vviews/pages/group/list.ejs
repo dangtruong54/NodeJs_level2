@@ -3,6 +3,7 @@
 <% include ./../../helpers/pagination %>
 <% include ./../../helpers/status %>
 <% include ./../../helpers/source-by %>
+<% include ./../../helpers/group-acp %>
 <% include ./../../helpers/sort %>
 <%
 	const collection = "group";
@@ -59,6 +60,7 @@
 									<%- sortHelper(collection,'Name', 'name', sortField, sortType, 'width: 20%; color: red') %>
 									<%- sortHelper(collection,'Status', 'status', sortField, sortType) %>
 									<%- sortHelper(collection,'Ordering', 'ordering', sortField, sortType) %>
+									<%- sortHelper(collection,'GroupACP', 'groupAcp', sortField, sortType) %>
 									<th>Created</th>
 									<th>Modified</th>
 									<th>Action</th>
@@ -72,6 +74,7 @@
 										<td><%= item.name %></td>
 										<td><%- statusHelper(collection, item.status, item.id) %></td>
 										<td><input type="number" value="<%= item.ordering %>" class="text-center ordering"></td>
+										<td><%- groupAcpHelper(collection, item.groupAcp, item.id) %></td>
 										<td><%- sourceBy(item.created.user_name, item.created.time) %></td>
 										<td><%- sourceBy(item.modified.user_name, item.modified.time) %></td>
 										<td>

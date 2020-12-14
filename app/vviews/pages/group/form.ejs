@@ -1,4 +1,4 @@
-<% 
+<%
 	const collection = "group";
 	const linkPrefix = systemConfig.prefixAdmin + `/${collection}/`;
 %>
@@ -27,6 +27,10 @@
 									<option value="active" <%= (item.status == "active") ? 'selected="selected"' : '' %> >Active</option>
 									<option value="inactive" <%= (item.status == "inactive") ? 'selected="selected"' : '' %> >Inactive</option>
 								</select>
+							</div>
+							<div class="form-group">
+								<label>Group Acp</label>
+								<input name="groupAcp" type="checkbox" <%= (item.groupAcp == "on") ? 'checked' : '' %>>
 							</div>
 							<div class="form-group">
 								<label>Content</label>
